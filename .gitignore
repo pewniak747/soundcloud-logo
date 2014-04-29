@@ -15,3 +15,5 @@ dist
 /.settings
 
 pi-billion.txt
+results
+results-naive

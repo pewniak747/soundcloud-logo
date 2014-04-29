@@ -22,7 +22,7 @@ object Runner {
       val score = window.zip(pattern).foldLeft(0)((mem, pair) => mem + Math.abs(pair._1 - pair._2))
       if (minimum > score) {
         minimum = score
-        println("found new score: " + score + ", " + window.mkString)
+        println("Score: " + score + "; Sequence: " + window.mkString + "; Offset: " + iterations)
       }
     }
 

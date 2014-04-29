@@ -1,0 +1,12 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    imageruby (0.2.5)
+    imageruby-bmp (0.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  imageruby
+  imageruby-bmp
