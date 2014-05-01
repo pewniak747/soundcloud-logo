@@ -19,6 +19,7 @@ object Runner {
     Source.stdin.take(2) // skip 3. part of 3.141592
     var window: Array[Int] = Source.stdin.take(pattern.length).map(charToInt(_)).toArray
     var minimum = 10 * pattern.length
+    var results = Array[Int]()
 
     var iterations = 0
     for(chunk <- Source.stdin.grouped(chunkSize); character <- chunk) {
@@ -35,7 +36,8 @@ object Runner {
         }
       )
       if (minimum >= score) {
-        minimum = score
+        results = (results :+ score).sorted.take(10)
+        minimum = results.last
         println("Score: " + score + "; Sequence: " + window.mkString + "; Offset: " + iterations)
       }
     }
