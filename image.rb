@@ -34,5 +34,7 @@ while line = readline do
     full_filename = File.join("results", filename)
     image.save(full_filename, :bmp)
     puts "Saved #{filename}"
+  else
+    puts "Skipped line: #{line}"
   end
 end
