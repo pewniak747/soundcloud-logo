@@ -1,6 +1,7 @@
 package soundcoundlogo
 
 import scala.io.Source
+import scala.collection.mutable.ArrayBuffer
 
 object Runner {
   def main(args: Array[String]) = {
@@ -17,7 +18,8 @@ object Runner {
 
     val chunkSize = pattern.length
     Source.stdin.take(2) // skip 3. part of 3.141592
-    var window: Array[Int] = Source.stdin.take(pattern.length).map(charToInt(_)).toArray
+    var window = ArrayBuffer[Int]()
+    window ++= Source.stdin.take(pattern.length).map(charToInt(_))
     var minimum = 10 * pattern.length
     var results = Array[Int]()
 
@@ -27,8 +29,8 @@ object Runner {
       if(iterations % (1024 * 1024) == 0) println("Read " + iterations + " digits")
 
       val digit = charToInt(character)
+      window += digit
       window = window.drop(1)
-      window = window :+ digit
 
       val score = (window, pattern, weights).zipped.foldLeft(0)((mem, triple) =>
         triple match {
