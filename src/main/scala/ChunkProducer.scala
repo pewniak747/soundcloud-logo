@@ -19,6 +19,7 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
   var source = rawSource.grouped(chunkSize).map { (chunk) => chunk.map(charToInt(_)) }
 
+  // one for every core
   var workers = Array.fill(4) { context.actorOf(Props[ChunkConsumer]) }.toSet
 
   var chunksCount = 0
@@ -28,6 +29,7 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
   var maxResults = 10
 
+  // educated guess for first approximation
   var maximum = 100
 
   var lastChunk: Option[Chunk] = None

@@ -66,6 +66,7 @@ class ChunkConsumer extends Actor {
         if (maximum <= score) {
           sender ! Sequence(window.toList, score, chunk.offset + iterations)
         } else if(score + maxDelta < maximum) {
+          // we know next windows won't improve result
           skip = (maximum - score) / maxDelta
         }
       }
