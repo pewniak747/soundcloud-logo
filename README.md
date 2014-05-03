@@ -45,15 +45,15 @@ Reference: ![](https://developers.soundcloud.com/assets/ref-df480d00485df7b8c1e4
 | Rank | Image                                                                                        | Sequence                                                                             | Offset    |
 |------|----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|-----------|
 | 1    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/1.bmp?raw=true)  | 002018389971220218045582410106189055335572418584786986482348181759008404675658168791 | 986358010 |
-| 2    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/2.bmp?raw=true)  | 800215341351220103034671310222446476806212424333014653707055343830806304853974200132 | 381184660 |
-| 3    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/3.bmp?raw=true)  | 013117783721171024573721821112998426218872817454685486857689969988482702703608582971 | 892078606 |
-| 4    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/4.bmp?raw=true)  | 280307573702001026282082852100079309773702383444978475064387355071369219962589860871 | 895548267 |
-| 5    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/5.bmp?raw=true)  | 121008386632828006353692404001989056001112432233104896875966576194676313998734249682 | 476117212 |
-| 6    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/6.bmp?raw=true)  | 122101648600091283386856422112074761947801134540905302315407968769948919384772415950 | 546199138 |
-| 7    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/7.bmp?raw=true)  | 101012742930222023384572920712972751102542545231074489099239267715789219963276889672 | 878630226 |
-| 8    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/8.bmp?raw=true)  | 101629546982060207887930301111977156147512363476354872593937840472193120450665403961 | 16292003  |
-| 9    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/9.bmp?raw=true)  | 011025068461120225365774490241062847066922484590533101154650966505636125139938896540 | 236909565 |
-| 10   | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/10.bmp?raw=true) | 241114290882013014932027820220115719980001855927285687118987365526304416427417096760 | 810861338 |
+| 2    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/2.bmp?raw=true)  | 800215341351220103034671310222446476806212424333014653707055343830806304853974200132 | 380812540 |
+| 3    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/3.bmp?raw=true)  | 013117783721171024573721821112998426218872817454685486857689969988482702703608582971 | 891207526 |
+| 4    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/4.bmp?raw=true)  | 280307573702001026282082852100079309773702383444978475064387355071369219962589860871 | 894673827 |
+| 5    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/5.bmp?raw=true)  | 101629546982060207887930301111977156147512363476354872593937840472193120450665403961 | 16276211  |
+| 6    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/6.bmp?raw=true)  | 011025068461120225365774490241062847066922484590533101154650966505636125139938896540 | 236678313 |
+| 7    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/7.bmp?raw=true)  | 121008386632828006353692404001989056001112432233104896875966576194676313998734249682 | 475652356 |
+| 8    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/8.bmp?raw=true)  | 122101648600091283386856422112074761947801134540905302315407968769948919384772415950 | 545665906 |
+| 9    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/9.bmp?raw=true)  | 241114290882013014932027820220115719980001855927285687118987365526304416427417096760 | 810069638 |
+| 10   | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/10.bmp?raw=true) | 101012742930222023384572920712972751102542545231074489099239267715789219963276889672 | 877772334 |
 
 ## Algorithm
 
