@@ -23,8 +23,8 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
   var chunksCount = 0
 
-  var resultsOrdering = Ordering[Int].on[Sequence](-_.score)
-  var results = SortedSet[Sequence]()(resultsOrdering)
+  implicit val resultsOrdering = Ordering[Int].on[Sequence](-_.score)
+  var results = Array[Sequence]()
 
   var maxResults = 10
 
@@ -36,7 +36,7 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
     case ChunkRequest => if (source.hasNext) nextChunk else noChunks
 
     case sequence@Sequence(data, score, offset) => {
-      results = (results + sequence).take(maxResults)
+      results = (results :+ sequence).sorted.take(maxResults)
       maximum = results.last.score
       println("Score: " + score + "; Sequence: " + data.mkString + "; Offset: " + offset)
     }
