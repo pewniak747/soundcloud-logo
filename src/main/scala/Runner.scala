@@ -9,7 +9,10 @@ object Runner {
     println("Starting Soundcloud Logo Approximator...")
 
     val actorSystem = ActorSystem()
-    val producer = actorSystem.actorOf(Props(new ChunkProducer(Source.stdin)))
+
+    val in = Source.stdin
+    in.drop(2) // drop 3.
+    val producer = actorSystem.actorOf(Props(new ChunkProducer(in)))
 
     println
     println("Exiting...")

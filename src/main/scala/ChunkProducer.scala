@@ -10,23 +10,23 @@ case class SequenceResult(val sequence: Seq[Int], val score: Int, val offset: In
 
 case object ChunkRequest
 
-class ChunkProducer(val _source: Iterator[Char]) extends Actor {
+class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
   val white = (0, 2)
   val gray  = (3, 9)
   val black = (6, 9)
   val pattern = Array(white, white, white, white, white, gray,  gray,  black, black, black, black, white, white, white,
-                     white, white, white, gray,  gray,  gray,  gray,  black, black, black, black, white, white, white,
-                     white, white, gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, white, white,
-                     gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
-                     gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
-                     white, gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, white)
+                      white, white, white, gray,  gray,  gray,  gray,  black, black, black, black, white, white, white,
+                      white, white, gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, white, white,
+                      gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
+                      gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
+                      white, gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, white)
 
   val weights = pattern.map((r) => if(r == white) 5 else 1)
 
   val chunkSize = 1024 * pattern.size
 
-  var source = _source.grouped(chunkSize).map { (chunk) => chunk.map(charToInt(_)) }
+  var source = rawSource.grouped(chunkSize).map { (chunk) => chunk.map(charToInt(_)) }
 
   var workers = Array.fill(4) { context.actorOf(Props(new ChunkConsumer(pattern, weights))) }.toSet
 
