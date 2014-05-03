@@ -12,7 +12,9 @@ case object ChunkRequest
 
 class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
-  val chunkSize = 1024 * 84
+  val patternSize = 84
+
+  val chunkSize = 1024 * patternSize
 
   var source = rawSource.grouped(chunkSize).map { (chunk) => chunk.map(charToInt(_)) }
 
@@ -24,11 +26,18 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
   var maximum = 100
 
+  var lastChunk: Option[Chunk] = None
+
   def receive = {
     case ChunkRequest => {
       if (source.hasNext) {
         val data = source.next
-        val chunk = Chunk(data, chunksCount * chunkSize)
+        val chunk = lastChunk match {
+          case Some(lastChunk) =>
+            Chunk(lastChunk.data.reverse.take(patternSize).reverse ++ data, lastChunk.offset + chunkSize)
+          case None => Chunk(data, 0)
+        }
+        lastChunk = Some(chunk)
         sender ! ChunkResponse(chunk, maximum)
         chunksCount += 1
         println("Sent " + chunksCount + " chunks")
