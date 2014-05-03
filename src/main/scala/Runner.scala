@@ -33,6 +33,8 @@ object Runner {
       case _ => -1
     }.filter(_ >= 0).toArray
 
+    val maxDelta = breakpoints.map { (b) => weights(b) }.sum + weights.last
+
     def scoreOfPixel(pixel: Int, range: (Int, Int), weight: Int) = range match {
       case (lowerBound, upperBound) => if(lowerBound <= pixel && pixel <= upperBound) weight else 0
     }
@@ -50,12 +52,12 @@ object Runner {
 
     var scores = new RingBuffer[Int](pattern.length)
     scores ++= scoresOfSequence(window)
-    var currentScore = scores.sum
 
     var maximum = 0
     var results = Array[Int]()
 
     var iterations = 0
+    var skip = 0
     for(chunk <- stdin.grouped(chunkSize); character <- chunk) {
       iterations += 1
       if(iterations % (1024 * 1024) == 0) println("Read " + iterations + " digits")
@@ -64,24 +66,26 @@ object Runner {
 
       // calculate changed pixel scores
       breakpoints.foreach { (breakpoint) =>
-        val newScore = scoreOfPixel(window(breakpoint + 1), ranges(breakpoint), weights(breakpoint))
-        val oldScore = scores(breakpoint + 1)
-        scores(breakpoint + 1) = newScore
-        currentScore += (newScore - oldScore)
+        scores(breakpoint + 1) = scoreOfPixel(window(breakpoint + 1), ranges(breakpoint), weights(breakpoint))
       }
 
       // append new pixel
-      currentScore -= scores.head
       scores += scoreOfPixel(pixel, ranges.last, weights.last)
       window += pixel
-      currentScore += scores.last
 
-      val score = currentScore
-      if (maximum <= score) {
-        results = (results :+ score).sorted.reverse.take(10)
-        maximum = results.last
-        println("Result set: " + results.mkString(", "))
-        println("Score: " + score + "; Sequence: " + window.mkString + "; Offset: " + iterations)
+      if (skip == 0) {
+        val score = scores.sum
+        if (maximum <= score) {
+          results = (results :+ score).sorted.reverse.take(10)
+          maximum = results.last
+          println("Result set: " + results.mkString(", "))
+          println("Score: " + score + "; Sequence: " + window.mkString + "; Offset: " + iterations)
+        } else if(score + maxDelta < maximum) {
+          skip = (maximum - score) / maxDelta
+        }
+      }
+      else {
+        skip -= 1
       }
     }
 
