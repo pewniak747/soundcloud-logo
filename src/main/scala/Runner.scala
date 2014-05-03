@@ -1,7 +1,7 @@
 package soundcoundlogo
 
 import scala.io.Source
-import scala.collection.mutable.ArrayBuffer
+import com.twitter.util.RingBuffer
 
 object Runner {
   def main(args: Array[String]) = {
@@ -52,10 +52,10 @@ object Runner {
     val stdin = Source.stdin
     stdin.drop(2) // skip 3. part of 3.141592
 
-    var window = ArrayBuffer[Int]()
-    window ++= stdin.take(pattern.length).map(charToInt(_))
+    var window = new RingBuffer[Int](pattern.length)
+    window ++= stdin.take(pattern.length).map(charToInt(_)).toArray
 
-    var scores = ArrayBuffer[Int]()
+    var scores = new RingBuffer[Int](pattern.length)
     scores ++= scoresOfSequence(window)
 
     var maximum = 0
@@ -77,11 +77,7 @@ object Runner {
         scores(breakpoint + 1) = scoreOfPixel(window(breakpoint + 1), ranges(breakpoint), weights(breakpoint))
       }
 
-      // first pixel goes out
-      window = window.drop(1)
-      scores = scores.drop(1)
-
-      // last pixel goes in
+      // append new pixel
       scores += scoreOfPixel(digit, ranges.last, weights.last)
       window += digit
 
@@ -90,6 +86,7 @@ object Runner {
       //println("Post digits: " + window.mkString(" "))
 
       val score = scores.sum
+      //println("Score: " + score + "; Score of seq: " + scoresOfSequence(window).sum)
       if (maximum <= score) {
         results = (results :+ score).sorted.reverse.take(10)
         maximum = results.last
