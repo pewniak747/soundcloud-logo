@@ -64,7 +64,7 @@ class ChunkConsumer extends Actor {
       if (skip == 0) {
         val score = scores.sum
         if (maximum <= score) {
-          sender ! SequenceResult(window.toList, score, chunk.offset + iterations)
+          sender ! Sequence(window.toList, score, chunk.offset + iterations)
         } else if(score + maxDelta < maximum) {
           skip = (maximum - score) / maxDelta
         }

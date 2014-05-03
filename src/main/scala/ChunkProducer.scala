@@ -1,12 +1,13 @@
 package soundcloudlogo
 
 import akka.actor._
+import scala.collection.SortedSet
 
 case class Chunk(val data: Seq[Int], val offset: Int)
 
 case class ChunkResponse(val chunk: Chunk, val maximum: Int)
 
-case class SequenceResult(val sequence: Seq[Int], val score: Int, val offset: Int)
+case class Sequence(val data: Seq[Int], val score: Int, val offset: Int)
 
 case object ChunkRequest
 
@@ -22,7 +23,8 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
   var chunksCount = 0
 
-  var results = Array[Int]()
+  var resultsOrdering = Ordering[Int].on[Sequence](-_.score)
+  var results = SortedSet[Sequence]()(resultsOrdering)
 
   var maxResults = 10
 
@@ -33,10 +35,10 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
   def receive = {
     case ChunkRequest => if (source.hasNext) nextChunk else noChunks
 
-    case SequenceResult(sequence, score, offset) => {
-      results = (results :+ score).sorted.reverse.take(maxResults)
-      maximum = results.last
-      println("Score: " + score + "; Sequence: " + sequence.mkString + "; Offset: " + offset)
+    case sequence@Sequence(data, score, offset) => {
+      results = (results + sequence).take(maxResults)
+      maximum = results.last.score
+      println("Score: " + score + "; Sequence: " + data.mkString + "; Offset: " + offset)
     }
   }
 
@@ -57,7 +59,13 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
   def noChunks = {
     workers = workers - sender
-    if (workers.isEmpty) exit()
+    if (workers.isEmpty) {
+      println
+      results.zipWithIndex.map { case (result, index) =>
+        println("Result " + (index + 1) + ": Sequence: " + result.data.mkString + " Offset: " + result.offset + " Score: " + result.score)
+      }
+      exit()
+    }
   }
 
   def charToInt(a: Char): Int = a.toInt - 48
