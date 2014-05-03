@@ -40,6 +40,8 @@ head -c N pi-billion.txt | sbt run
 
 ## Results
 
+Reference: ![](https://developers.soundcloud.com/assets/ref-df480d00485df7b8c1e47762d4d11430.gif)
+
 | Rank | Image                                                                                        | Sequence                                                                             | Offset    |
 |------|----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|-----------|
 | 1    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-final/1.bmp?raw=true)  | 002018389971220218045582410106189055335572418584786986482348181759008404675658168791 | 986358010 |
