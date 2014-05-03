@@ -41,13 +41,6 @@ object Runner {
       case (pixel, range, weight) => scoreOfPixel(pixel, range, weight)
     }.toArray
 
-    if(args.size == 1) {
-      val input = args(0).map(charToInt(_))
-      val score = scoresOfSequence(input).sum
-      println("Score: " + score)
-      System.exit(0)
-    }
-
     val chunkSize = pattern.length
     val stdin = Source.stdin
     stdin.drop(2) // skip 3. part of 3.141592
@@ -62,16 +55,12 @@ object Runner {
     var maximum = 0
     var results = Array[Int]()
 
-    //println("Breakpoints: " + breakpoints.mkString(" "))
-    //println("Pre digits:  " + window.mkString(" "))
-    //println("Pre scores:  " + scores.mkString(" "))
-
     var iterations = 0
     for(chunk <- stdin.grouped(chunkSize); character <- chunk) {
       iterations += 1
       if(iterations % (1024 * 1024) == 0) println("Read " + iterations + " digits")
 
-      val digit = charToInt(character)
+      val pixel = charToInt(character)
 
       // calculate changed pixel scores
       breakpoints.foreach { (breakpoint) =>
@@ -83,19 +72,11 @@ object Runner {
 
       // append new pixel
       currentScore -= scores.head
-      scores += scoreOfPixel(digit, ranges.last, weights.last)
-      window += digit
+      scores += scoreOfPixel(pixel, ranges.last, weights.last)
+      window += pixel
       currentScore += scores.last
 
-      //println("Post scores: " + scores.mkString(" "))
-      //println("Post soseq:  " + scoresOfSequence(window).mkString(" "))
-      //println("Post digits: " + window.mkString(" "))
-
       val score = currentScore
-      //val scoreOfSequence = scoresOfSequence(window).sum
-      //println("Score: " + score + "; Score of seq: " + scoreOfSequence)
-      //if(score != scoreOfSequence) System.exit(1)
-
       if (maximum <= score) {
         results = (results :+ score).sorted.reverse.take(10)
         maximum = results.last
