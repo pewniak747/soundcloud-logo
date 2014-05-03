@@ -25,7 +25,7 @@ object Runner {
                       gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
                       gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
                       white, gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, white)
-
+    val weights = pattern.map((d) => if(d < 2) 5 else 1)
 
     val chunkSize = pattern.length
     Source.stdin.take(2) // skip 3. part of 3.141592
@@ -43,9 +43,9 @@ object Runner {
       window += digit
       window = window.drop(1)
 
-      val score = ranges.zip(window).filter({
-        case ((lowerBound, upperBound), pixel) => lowerBound <= pixel && pixel <= upperBound
-      }).length
+      val score = (ranges, window, weights).zipped.map({
+        case ((lowerBound, upperBound), pixel, weight) => if(lowerBound <= pixel && pixel <= upperBound) weight else 0
+      }).sum
 
       if (maximum <= score) {
         results = (results :+ score).sorted.reverse.take(10)
