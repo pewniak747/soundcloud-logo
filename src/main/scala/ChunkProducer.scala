@@ -46,7 +46,7 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
     val data = source.next
     val chunk = lastChunk match {
       case Some(lastChunk) =>
-        Chunk(lastChunk.data.reverse.take(patternSize).reverse ++ data, lastChunk.offset + chunkSize)
+        Chunk(lastChunk.data.reverse.take(patternSize).reverse ++ data, lastChunk.offset + chunkSize - patternSize)
       case None => Chunk(data, 0)
     }
     lastChunk = Some(chunk)
