@@ -61,7 +61,7 @@ class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
     workers = workers - sender
     if (workers.isEmpty) {
       println
-      results.zipWithIndex.map { case (result, index) =>
+      results.toList.zipWithIndex.map { case (result, index) =>
         println("Result " + (index + 1) + ": Sequence: " + result.data.mkString + " Offset: " + result.offset + " Score: " + result.score)
       }
       exit()
