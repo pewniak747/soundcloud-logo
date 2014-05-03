@@ -12,29 +12,17 @@ case object ChunkRequest
 
 class ChunkProducer(val rawSource: Iterator[Char]) extends Actor {
 
-  val white = (0, 2)
-  val gray  = (3, 9)
-  val black = (6, 9)
-  val pattern = Array(white, white, white, white, white, gray,  gray,  black, black, black, black, white, white, white,
-                      white, white, white, gray,  gray,  gray,  gray,  black, black, black, black, white, white, white,
-                      white, white, gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, white, white,
-                      gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
-                      gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
-                      white, gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, white)
-
-  val weights = pattern.map((r) => if(r == white) 5 else 1)
-
-  val chunkSize = 1024 * pattern.size
+  val chunkSize = 1024 * 84
 
   var source = rawSource.grouped(chunkSize).map { (chunk) => chunk.map(charToInt(_)) }
 
-  var workers = Array.fill(4) { context.actorOf(Props(new ChunkConsumer(pattern, weights))) }.toSet
+  var workers = Array.fill(4) { context.actorOf(Props[ChunkConsumer]) }.toSet
 
   var chunksCount = 0
 
   var results = Array[Int]()
 
-  var maximum = weights.sum * 2 / 3
+  var maximum = 100
 
   def receive = {
     case ChunkRequest => {

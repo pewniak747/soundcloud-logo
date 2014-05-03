@@ -3,7 +3,19 @@ package soundcloudlogo
 import com.twitter.util.RingBuffer
 import akka.actor._
 
-class ChunkConsumer(val pattern: Array[(Int, Int)], val weights: Array[Int]) extends Actor {
+class ChunkConsumer extends Actor {
+
+  val white = (0, 2)
+  val gray  = (3, 9)
+  val black = (6, 9)
+  val pattern = Array(white, white, white, white, white, gray,  gray,  black, black, black, black, white, white, white,
+                      white, white, white, gray,  gray,  gray,  gray,  black, black, black, black, white, white, white,
+                      white, white, gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, white, white,
+                      gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
+                      gray,  gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, black,
+                      white, gray,  gray,  gray,  gray,  gray,  gray,  black, black, black, black, black, black, white)
+
+  val weights = pattern.map((r) => if(r == white) 5 else 1)
 
   val breakpoints: Array[Int] = pattern.sliding(2).zipWithIndex.map {
     case (pattern, index) if pattern(0) != pattern(1) => index
