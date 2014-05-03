@@ -18,7 +18,7 @@ colors = [
   ImageRuby::Color.black
 ]
 
-while line = readline do
+while line = $stdin.gets do
   if line =~ regex
     match = line.match(regex)
     score = match[1]
