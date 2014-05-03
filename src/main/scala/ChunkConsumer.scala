@@ -26,10 +26,10 @@ class ChunkConsumer(val pattern: Array[(Int, Int)], val weights: Array[Int]) ext
     }
   }
 
-  def work(chunk: Seq[Int]) = {
-    val in = chunk.toIterator
+  def work(chunk: Chunk) = {
+    val data = chunk.data.toIterator
     var window = new RingBuffer[Int](pattern.length)
-    window ++= in.take(pattern.length).toArray
+    window ++= data.take(pattern.length).toArray
 
     var scores = new RingBuffer[Int](pattern.length)
     scores ++= scoresOfSequence(window)
@@ -37,7 +37,7 @@ class ChunkConsumer(val pattern: Array[(Int, Int)], val weights: Array[Int]) ext
     var iterations = 0
     var skip = 0
 
-    for(pixel <- in) {
+    for(pixel <- data) {
       iterations += 1
 
       // calculate changed pixel scores
@@ -52,7 +52,7 @@ class ChunkConsumer(val pattern: Array[(Int, Int)], val weights: Array[Int]) ext
       if (skip == 0) {
         val score = scores.sum
         if (maximum <= score) {
-          sender ! SequenceResult(window.toList, score, iterations)
+          sender ! SequenceResult(window.toList, score, chunk.offset + iterations)
         } else if(score + maxDelta < maximum) {
           skip = (maximum - score) / maxDelta
         }

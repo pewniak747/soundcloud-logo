@@ -2,7 +2,9 @@ package soundcloudlogo
 
 import akka.actor._
 
-case class ChunkResponse(val chunk: Seq[Int], val maximum: Int)
+case class Chunk(val data: Seq[Int], val offset: Int)
+
+case class ChunkResponse(val chunk: Chunk, val maximum: Int)
 
 case class SequenceResult(val sequence: Seq[Int], val score: Int, val offset: Int)
 
@@ -37,7 +39,8 @@ class ChunkProducer(val _source: Iterator[Char]) extends Actor {
   def receive = {
     case ChunkRequest => {
       if (source.hasNext) {
-        val chunk = source.next
+        val data = source.next
+        val chunk = Chunk(data, chunksCount * chunkSize)
         sender ! ChunkResponse(chunk, maximum)
         chunksCount += 1
         println("Sent " + chunksCount + " chunks")
