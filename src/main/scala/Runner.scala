@@ -57,6 +57,7 @@ object Runner {
 
     var scores = new RingBuffer[Int](pattern.length)
     scores ++= scoresOfSequence(window)
+    var currentScore = scores.sum
 
     var maximum = 0
     var results = Array[Int]()
@@ -74,19 +75,27 @@ object Runner {
 
       // calculate changed pixel scores
       breakpoints.foreach { (breakpoint) =>
-        scores(breakpoint + 1) = scoreOfPixel(window(breakpoint + 1), ranges(breakpoint), weights(breakpoint))
+        val newScore = scoreOfPixel(window(breakpoint + 1), ranges(breakpoint), weights(breakpoint))
+        val oldScore = scores(breakpoint + 1)
+        scores(breakpoint + 1) = newScore
+        currentScore += (newScore - oldScore)
       }
 
       // append new pixel
+      currentScore -= scores.head
       scores += scoreOfPixel(digit, ranges.last, weights.last)
       window += digit
+      currentScore += scores.last
 
       //println("Post scores: " + scores.mkString(" "))
       //println("Post soseq:  " + scoresOfSequence(window).mkString(" "))
       //println("Post digits: " + window.mkString(" "))
 
-      val score = scores.sum
-      //println("Score: " + score + "; Score of seq: " + scoresOfSequence(window).sum)
+      val score = currentScore
+      //val scoreOfSequence = scoresOfSequence(window).sum
+      //println("Score: " + score + "; Score of seq: " + scoreOfSequence)
+      //if(score != scoreOfSequence) System.exit(1)
+
       if (maximum <= score) {
         results = (results :+ score).sorted.reverse.take(10)
         maximum = results.last
