@@ -38,6 +38,12 @@ Or for first N digits:
 head -c N pi-billion.txt | sbt run
 ```
 
+## Results
+
+| Rank | Image                                                                                                                                                                                                    | Sequence                                                                             | Offset    |
+|------|--------------------------------------------------------------------------------------|-----------|
+| 1    | ![](https://github.com/pewniak747/soundcloud-logo/blob/master/results-weighted-ranged-2/133-002018389971220218045582410106189055335572418584786986482348181759008404675658168791-987322078.bmp?raw=true) | 002018389971220218045582410106189055335572418584786986482348181759008404675658168791 | 986358010 |
+
 ## Algorithm
 
 The producer divides stream of digits into chunks for distributed processing (with proper overlapping to make sure it won't miss any result). Then it sends out work to consumers.
